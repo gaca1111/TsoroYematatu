@@ -1,0 +1,438 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<HEAD>
+<title>Tsoro Yematatu</title>
+<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="TEXT/HTML; CHARSET=ISO-8859-1">
+<META HTTP-EQUIV="EXPIRES" CONTENT="">
+<META NAME="TITLE" CONTENT="Tsoro Yematatu">
+<META NAME="DESCRIPTION" CONTENT="Tsoro Yematatu - The african version of Tic Tac Toe">
+<link rel="stylesheet" href="Style.css" >
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  
+<script type="text/JavaScript" language="JavaScript1.2">
+var gameovertxt = 'Koniec gry!  ';
+var blacktxt = 'Czerwone';
+var whitetxt = 'Zolte';
+var wintxt = ' wygrywaja.';
+var cantmovetxt = ' nie moga sie ruszyc.\n';
+var movesagaintxt = ' moga sie ruszyc ponownie.';
+var againtxt = 'Jeszcze raz?';
+
+var field = new Array();
+var empty = 0;
+var black = 1;
+var white = 3;  // note that white = 2 will NOT work! (algorithm to check for immediate threat or win won't work)
+var currentplayer = black;
+var stones = new Array(0,0,0,0);
+var computerplay = 0; // 0 = no computer, 1 = player against computer, 2 = computer against computer
+var gameover = false;
+var started = false;
+
+var blackwins = 0;
+var whitewins = 0;
+
+// preload
+var button = new Array();
+button[0] = new Image();
+button[0].src = 'b0.png';
+button[1] = new Image();
+button[1].src = 'circle.png';
+button[2] = new Image();
+button[2].src = 'b0.png';
+button[3] = new Image();
+button[3].src = 'circle0.png';
+
+function docenter()
+{
+  var l = window.innerWidth? window.innerWidth:document.body.clientWidth;
+  l = (l - 350) / 2;
+  if (l < 10) l = 10;
+  var t = window.innerHeight? window.innerHeight:document.body.clientHeight;
+  t = (t - 250) / 2;
+
+  document.images['field'].style.left =  l + 'px';
+  document.images['field0'].style.left = (l+141) + 'px';
+  document.images['field1'].style.left = (l+ 60) + 'px';
+  document.images['field2'].style.left = (l+141) + 'px';
+  document.images['field3'].style.left = (l+222) + 'px';
+  document.images['field4'].style.left = (l+  0) + 'px';
+  document.images['field5'].style.left = (l+141) + 'px';
+  document.images['field6'].style.left = (l+282) + 'px';
+
+  document.forms['score'].elements['startbut'].style.left = (l+10) + 'px';
+}
+window.onresize = docenter;
+
+function init()
+{
+  docenter();
+  for (var i = 0; i < 7; i++)
+    field[i] = empty;
+  currentplayer = black;
+  stones[white] = 0;
+  stones[black] = 0;
+  gameover = false;
+  started = false;
+  draw_field();
+}
+
+function draw_field()
+{
+  for (var i = 0; i < 7; i++)
+  {
+    if (document.images['field'+i].src != button[field[i]].src)
+    {
+      document.images['field'+i].src = button[field[i]].src;
+    }
+    document.images['field'+i].style.cursor = "default";
+  }
+  document.forms['score'].elements['bwins'].value = "";
+  document.forms['score'].elements['wwins'].value = "";
+}
+
+function evaluate(node)
+{
+  // function  is currently only called when all stones are on the board, no need to check for that
+  // function  is currently only called for node that can move, no need to check for that
+
+  var returnvalue = 0;  // neutral value
+  var otherplayer = (currentplayer == white) ? black : white ;
+
+  // remember the board as it is now
+  var orgfield = new Array();
+  for (var i=0; i<7; i++)
+    orgfield[i] = field[i];
+
+  // do the move
+  for (var i = 0; i < 7; i++)
+  {
+    if (field[i] == empty)
+    {
+      field[i] = currentplayer;
+      break;
+    }
+  }
+  field[node] = empty;
+
+  // check if game over
+  var win = empty;
+  if (field[0] == currentplayer)
+  {
+    if (field[1] == currentplayer && field[4] == currentplayer) win = currentplayer;	// covers 014
+    if (field[2] == currentplayer && field[5] == currentplayer) win = currentplayer;	// covers 025
+    if (field[3] == currentplayer && field[6] == currentplayer) win = currentplayer;	// covers 036
+  }
+  else if (field[1] == currentplayer)
+  {
+    if (field[2] == currentplayer && field[3] == currentplayer) win = currentplayer;	// covers 123
+  }
+  else if (field[4] == currentplayer)
+  {
+    if (field[5] == currentplayer && field[6] == currentplayer) win = currentplayer;	// covers 456
+  }
+
+  if (win == currentplayer)
+    returnvalue = 10;
+  else
+  {
+    // the move is not immediately winning, but is it immediately losing?
+    if ( (field[0] + field[1] + field[4]) == (2 * otherplayer) )
+    {
+      // threat on the first diagonal?
+      if (field[0] == empty)
+      {
+        if (field[2] == otherplayer || field[3] == otherplayer)
+          returnvalue = -10;
+      }
+      else if (field[1] == empty)
+      {
+        if (field[2] == otherplayer)
+          returnvalue = -10;
+      }
+      else if (field[4] == empty)
+      {
+        if (field[5] == otherplayer)
+          returnvalue = -10;
+      }
+      else alert('Something stinky is going on.(6)');
+    }
+    else if ( (field[0] + field[2] + field[5]) == (2 * otherplayer) )
+    {
+      // threat on the vertical?
+      if (field[0] == empty)
+      {
+        if (field[1] == otherplayer || field[3] == otherplayer)
+          returnvalue = -10;
+      }
+      else if (field[2] == empty)
+      {
+        if (field[1] == otherplayer || field[3] == otherplayer)
+          returnvalue = -10;
+      }
+      else if (field[5] == empty)
+      {
+        if (field[4] == otherplayer || field[6] == otherplayer)
+          returnvalue = -10;
+      }
+      else alert('Something stinky is going on.(7)');
+    }
+    else if ( (field[0] + field[3] + field[6]) == (2 * otherplayer) )
+    {
+      // threat on the second diagonal?
+      if (field[0] == empty)
+      {
+        if (field[1] == otherplayer || field[2] == otherplayer)
+          returnvalue = -10;
+      }
+      else if (field[3] == empty)
+      {
+        if (field[2] == otherplayer)
+          returnvalue = -10;
+      }
+      else if (field[6] == empty)
+      {
+        if (field[5] == otherplayer)
+          returnvalue = -10;
+      }
+      else alert('Something stinky is going on.(8)');
+    }
+    else if ( (field[1] + field[2] + field[3]) == (2 * otherplayer) )
+    {
+      // threat on the first horizontal?
+      if (field[1] == empty)
+      {
+        if (field[0] == otherplayer || field[4] == otherplayer)
+          returnvalue = -10;
+      }
+      else if (field[2] == empty)
+      {
+        if (field[0] == otherplayer || field[5] == otherplayer)
+          returnvalue = -10;
+      }
+      else if (field[3] == empty)
+      {
+        if (field[0] == otherplayer || field[6] == otherplayer)
+          returnvalue = -10;
+      }
+      else alert('Something stinky is going on.(9)');
+    }
+    else if ( (field[4] + field[5] + field[6]) == (2 * otherplayer) )
+    {
+      // threat on the second horizontal?
+      if (field[4] == empty)
+      {
+        if (field[1] == otherplayer)
+          returnvalue = -10;
+      }
+      else if (field[5] == empty)
+      {
+        if (field[2] == otherplayer)
+          returnvalue = -10;
+      }
+      else if (field[6] == empty)
+      {
+        if (field[3] == otherplayer)
+          returnvalue = -10;
+      }
+      else alert('Something stinky is going on.(10)');
+    }
+  }
+
+  // restore the board.
+  for (var i=0; i<7; i++)
+    field[i] = orgfield[i];
+
+  return returnvalue;
+}
+
+
+function clicknode(node)
+{
+  if (gameover) return;  // prevents click-actions after the game finished
+  started = true;        // disables the start button
+
+  if (stones[currentplayer] < 3)
+  {
+    if (field[node] == empty)
+    {
+      field[node] = currentplayer;
+      stones[currentplayer]++;
+    }
+    else return;  // clicked node is not empty, dont do anything
+  }
+  else
+  {
+    if( field[node] == currentplayer && can_move(node) )
+    {
+      // put the stone on the empty node
+      for (var i = 0; i < 7; i++)
+      {
+        if (field[i] == empty)
+        {
+          field[i] = currentplayer;
+          break;
+        }
+      }
+      field[node] = empty;
+    }
+    else return;  // clicked node is not playable, dont do anything
+  }
+
+  draw_field();
+  check_if_over();
+}
+
+function playercanmove()
+{
+  if (stones[currentplayer] < 3) return true;
+  for (var i = 0; i < 7; i++)
+    if (field[i] == currentplayer)
+      if (can_move(i))
+        return true;
+  return false;
+}
+
+function can_move(node)
+{
+  if (field[node] != currentplayer) return false;
+if (0)  // this rule applies for original tsoro yematatu (including jumps!)
+{
+  if (node == 0)
+    return true;  // node 0 can always move
+  if (node == 1)
+    if (field[0] == empty || field[2] == empty || field[3] == empty || field[4] == empty) return true;
+  if (node == 2)
+    if (field[0] == empty || field[1] == empty || field[3] == empty || field[5] == empty) return true;
+  if (node == 3)
+    if (field[0] == empty || field[1] == empty || field[2] == empty || field[6] == empty) return true;
+  if (node == 4)
+    if (field[0] == empty || field[1] == empty || field[5] == empty || field[6] == empty) return true;
+  if (node == 5)
+    if (field[0] == empty || field[2] == empty || field[4] == empty || field[6] == empty) return true;
+  if (node == 6)
+    if (field[0] == empty || field[3] == empty || field[4] == empty || field[5] == empty) return true;
+  return false;
+}
+  if (node == 0)
+    if (field[1] == empty || field[2] == empty || field[3] == empty) return true;
+  if (node == 1)
+    if (field[0] == empty || field[2] == empty || field[4] == empty) return true;
+  if (node == 2)
+    if (field[0] == empty || field[1] == empty || field[3] == empty || field[5] == empty) return true;
+  if (node == 3)
+    if (field[0] == empty || field[2] == empty || field[6] == empty) return true;
+  if (node == 4)
+    if (field[1] == empty || field[5] == empty) return true;
+  if (node == 5)
+    if (field[2] == empty || field[4] == empty || field[6] == empty) return true;
+  if (node == 6)
+    if (field[3] == empty || field[5] == empty) return true;
+  return false;
+}
+
+function check_if_over()
+{
+  var win = empty;
+  if (field[0] == currentplayer)
+  {
+    if (field[1] == currentplayer && field[4] == currentplayer) win = currentplayer;	// covers 014
+    if (field[2] == currentplayer && field[5] == currentplayer) win = currentplayer;	// covers 025
+    if (field[3] == currentplayer && field[6] == currentplayer) win = currentplayer;	// covers 036
+  }
+  else if (field[1] == currentplayer)
+  {
+    if (field[2] == currentplayer && field[3] == currentplayer) win = currentplayer;	// covers 123
+  }
+  else if (field[4] == currentplayer)
+  {
+    if (field[5] == currentplayer && field[6] == currentplayer) win = currentplayer;	// covers 456
+  }
+  if (win != empty)
+  {
+    gameover = true;
+    var overmsg = gameovertxt;
+    overmsg += (win == white) ? whitetxt : blacktxt;
+    overmsg += wintxt;
+    alert(overmsg);
+
+    if(win==white)
+      whitewins++;
+    else
+      blackwins++;
+
+    //if (confirm(againtxt)) init();
+    init();
+  }
+  else
+  {
+    currentplayer = (currentplayer == white) ? black : white ; // switch player
+
+    if (!playercanmove()) // current player cannot move
+    {
+      var p1, p2;
+      if (currentplayer == white) { p1 = whitetxt; p2 = blacktxt;}
+      else { p1 = blacktxt; p2 = whitetxt;}
+      alert( p1 + cantmovetxt + p2 + movesagaintxt);
+      currentplayer = (currentplayer == white) ? black : white ;
+    }
+
+    if (currentplayer == white && computerplay == 1 || computerplay == 2)
+      setTimeout('self_play()', 500);
+  }
+}
+
+function mousein(node)
+{
+  if ( (stones[currentplayer] < 3) || can_move(node) )
+  {
+    document.images['field'+node].style.cursor = "hand";
+  }
+  else
+  {
+    document.images['field'+node].style.cursor = "default";
+  }
+}
+
+</script>
+</head>
+
+
+<BODY onload="init()">
+<div class="header">
+<center>
+<h1>Tsoro Yematatu - Player vs Player</h1>
+</center>
+</div>
+<hr/>
+<div>
+<script type="text/JavaScript" language="JavaScript1.2">
+  document.write('<img src="board.png" id="field" style="POSITION: relative;">');
+  var element = document.getElementById('field');
+  var elem = element.getBoundingClientRect();
+  console.log(elem.right, elem.top);
+  var xbase = elem.right;
+  var ybase = elem.top;
+
+  document.write('<img src="b0.png" id="field0" style="LEFT: ' +(xbase+141)+ 'px; TOP: ' +(ybase+  0)+ 'px; POSITION: absolute;" OnClick="clicknode(0)" onMouseOver="mousein(0)">');
+  document.write('<img src="b0.png" id="field1" style="LEFT: ' +(xbase+ 60)+ 'px; TOP: ' +(ybase+100)+ 'px; POSITION: absolute;" OnClick="clicknode(1)" onMouseOver="mousein(1)">');
+  document.write('<img src="b0.png" id="field2" style="LEFT: ' +(xbase+141)+ 'px; TOP: ' +(ybase+100)+ 'px; POSITION: absolute;" OnClick="clicknode(2)" onMouseOver="mousein(2)">');
+  document.write('<img src="b0.png" id="field3" style="LEFT: ' +(xbase+222)+ 'px; TOP: ' +(ybase+100)+ 'px; POSITION: absolute;" OnClick="clicknode(3)" onMouseOver="mousein(3)">');
+  document.write('<img src="b0.png" id="field4" style="LEFT: ' +(xbase+  0)+ 'px; TOP: ' +(ybase+190)+ 'px; POSITION: absolute;" OnClick="clicknode(4)" onMouseOver="mousein(4)">');
+  document.write('<img src="b0.png" id="field5" style="LEFT: ' +(xbase+141)+ 'px; TOP: ' +(ybase+190)+ 'px; POSITION: absolute;" OnClick="clicknode(5)" onMouseOver="mousein(5)">');
+  document.write('<img src="b0.png" id="field6" style="LEFT: ' +(xbase+282)+ 'px; TOP: ' +(ybase+190)+ 'px; POSITION: absolute;" OnClick="clicknode(6)" onMouseOver="mousein(6)">');
+
+  document.write('<form name="score">');
+  document.write('<input type="button" class="StartButtonPvP" id="startbut" value="Start!" style="width: 85; height: 30; LEFT: ' +(xbase+10)+ 'px; TOP: '+(ybase+250)+ 'px; POSITION: absolute;" onclick="cst()"></input>');
+  document.write('<input class="hidden" id="whitewinstxt" type="text" value="" style="width: 100; LEFT: ' +(xbase+280)+ 'px; TOP: '+(ybase+30)+ 'px; POSITION: absolute; background-color:transparent; border-width: 0px;" onclick="blur()"></input>');
+  document.write('<input class="hidden" id="blackwinstxt" type="text" value=""      style="width: 100; LEFT: ' +(xbase+280)+ 'px; TOP: '+(ybase+60)+ 'px; POSITION: absolute; background-color:transparent; border-width: 0px;" onclick="blur()"></input>');
+  document.write('<input class="hidden" id="wwins" type="text" value="" style="width: 100; LEFT: ' +(xbase+400)+ 'px; TOP: '+(ybase+30)+ 'px; POSITION: absolute; background-color:transparent; border-width: 0px;" onclick="blur()"></input>');
+  document.write('<input class="hidden" id="bwins" type="text" value="" style="width: 100; LEFT: ' +(xbase+400)+ 'px; TOP: '+(ybase+60)+ 'px; POSITION: absolute; background-color:transparent; border-width: 0px;" onclick="blur()"></input>');
+
+  document.write('</form>');
+
+  document.write('<div style="TOP: '+(ybase+270)+ 'px; POSITION: absolute;">');
+
+</script>
+</div>
+</BODY>
+</html>
