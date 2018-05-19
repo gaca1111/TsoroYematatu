@@ -1,1 +1,6 @@
 C:\Users\Gaca1111\Desktop\TsoroYematatu\TsoroYematatu\TsoroYematatu\bin\Debug\TsoroYematatu.exe.config
+C:\Users\Gaca1111\Desktop\TsoroYematatu\TsoroYematatu\TsoroYematatu\bin\Debug\TsoroYematatu.exe
+C:\Users\Gaca1111\Desktop\TsoroYematatu\TsoroYematatu\TsoroYematatu\bin\Debug\TsoroYematatu.pdb
+C:\Users\Gaca1111\Desktop\TsoroYematatu\TsoroYematatu\TsoroYematatu\obj\Debug\TsoroYematatu.csprojResolveAssemblyReference.cache
+C:\Users\Gaca1111\Desktop\TsoroYematatu\TsoroYematatu\TsoroYematatu\obj\Debug\TsoroYematatu.exe
+C:\Users\Gaca1111\Desktop\TsoroYematatu\TsoroYematatu\TsoroYematatu\obj\Debug\TsoroYematatu.pdb

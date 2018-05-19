@@ -72,6 +72,19 @@ namespace TsoroYematatu {
             line_base_array[position] = new Line(first_pawn, second_pawn, third_pawn);
             line_base_array[position].Base_line_weight = base_weight;
         }
+
+        public int Get_Line_Weight(Line line) {
+
+            for (int i = 0; i < line_base_array.Length; i++) {
+
+                if (line.Line_state[0] == line_base_array[i].Line_state[0] && line.Line_state[1] == line_base_array[i].Line_state[1] && line.Line_state[2] == line_base_array[i].Line_state[2]) {
+
+                    return line_base_array[i].Base_line_weight;
+                }
+            }
+
+            return -1000;
+        }
     }
 }
    
