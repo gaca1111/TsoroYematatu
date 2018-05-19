@@ -39,13 +39,29 @@ namespace TsoroYematatu {
         }
     }
 
-
     public class Board {
 
-        private int[,] board_field_weight = new int[3, 3] {{1,1,1},{1,1,1},{1,1,1}};
+        private static int[,] board_field_weight = new int[3, 3] {{5,5,5},{3,8,3},{0,1,0}};
+        private static int board_size = 3;
+        
 
+        private int[] empty_field;
 
-        private Pawn[,] board_state = new Pawn[3, 3];
+        private Pawn[,] board_state = new Pawn[board_size, board_size];
 
+        public Board() {
+
+            Setup_empty_field();
+        }
+
+        private void Setup_empty_field() {
+
+            empty_field = new int[board_size * board_size];
+
+            for (int i = 0; i < empty_field.Length; i++) {
+
+                empty_field[i] = i;
+            }
+        }
     }
 }
