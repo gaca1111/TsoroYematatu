@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -44,24 +45,44 @@ namespace TsoroYematatu {
         private static int[,] board_field_weight = new int[3, 3] {{5,5,5},{3,8,3},{0,1,0}};
         private static int board_size = 3;
         
-
-        private int[] empty_field;
+        public ArrayList empty_field;
 
         private Pawn[,] board_state = new Pawn[board_size, board_size];
+        private Pawn[,] experimental_board_state;
+
 
         public Board() {
 
-            Setup_empty_field();
+            Setup_Board();
+            Setup_Empty_Field();
         }
 
-        private void Setup_empty_field() {
+        private void Setup_Board() {
 
-            empty_field = new int[board_size * board_size];
+            for (int i = 0; i < board_size; i++) {
 
-            for (int i = 0; i < empty_field.Length; i++) {
+                for (int j = 0; j < board_size; j++) {
 
-                empty_field[i] = i;
+                    board_state[i, j] = Pawn.Empty;
+                }
             }
+
+            experimental_board_state = board_state;
+        }
+
+        private void Setup_Empty_Field() {
+
+            for (int i = 0; i < board_size*board_size; i++) {
+
+                empty_field.Add(i);
+            }
+        }
+
+        public Move Move_To(Move move, Pawn pawn_colour, bool experimental) {
+
+            
+
+            return move;
         }
     }
 }
