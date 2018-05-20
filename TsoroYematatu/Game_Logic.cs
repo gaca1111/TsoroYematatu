@@ -92,6 +92,8 @@ namespace TsoroYematatu {
 
             for (int i = 0; i < first_phase_counter; i++) {
 
+                Console.WriteLine("------ " + whose_turn);
+
                 Find_Moves_First_Phase();
 
                 Evaluate_Moves_First_Phase();
@@ -134,18 +136,10 @@ namespace TsoroYematatu {
                    
             if (blank.Move_to == 0 || blank.Move_to == 1 || blank.Move_to == 2) {
 
-                blank.Move_to = 0;
                 board.Move_To(blank, whose_turn, false);
-                board.empty_field.Remove(blank.Move_to);
-
-                blank.Move_to = 1;
-                board.Move_To(blank, whose_turn, false);
-                board.empty_field.Remove(blank.Move_to);
-
-                blank.Move_to = 2;
-                board.Move_To(blank, whose_turn, false);
-                board.empty_field.Remove(blank.Move_to);
-
+                board.empty_field.Remove(0);
+                board.empty_field.Remove(1);
+                board.empty_field.Remove(2);
             }
             else {
 
@@ -158,31 +152,19 @@ namespace TsoroYematatu {
   
             while (wictory) {
 
+                Console.WriteLine("------ " + whose_turn);
+
                 Find_Moves_Second_Phase();
-
-                Console.WriteLine("-------");
-
+              
                 for (int i = 0; i < possible_moves.Count; i++) {
 
                     Move test = (Move)possible_moves[i];
-
-                    
-                    Console.Write(test.Move_from + " ");
-                    Console.WriteLine(test.Move_to + " ");
-
-
                 }
-
-                Console.WriteLine();
-
+         
                 Evaluate_Moves_Second_Phase();
 
-
-
                 board.Print_Board();
-
-               
-
+             
                 winner = board.Check_Lines_Victory();
 
                 if (winner != Pawn.Empty) {
@@ -190,24 +172,14 @@ namespace TsoroYematatu {
                     wictory = false;
                 }
 
-
                 Change_Turn();
 
-                
-
                 Console.ReadLine();
-
-
-
             }
 
             Console.WriteLine("Winner - " + winner);
 
-           
-
             board.Write_Last_Board(winner);
-
-
         }
 
         private void Find_Moves_Second_Phase() {
@@ -262,7 +234,6 @@ namespace TsoroYematatu {
 
                 // d
 
-
                 if (board.Check_Board_State(whose_turn, 0, 1, place + 3, x, y)) {
 
                     possible_moves.Add(new Move(place, place + 3));
@@ -287,7 +258,6 @@ namespace TsoroYematatu {
             }
         }
 
-
         private void Evaluate_Moves_Second_Phase() {
 
             for (int i = 0; i < possible_moves.Count; i++) {
@@ -308,17 +278,11 @@ namespace TsoroYematatu {
 
             if (blank.Move_to == 0 || blank.Move_to == 1 || blank.Move_to == 2) {
 
-                blank.Move_to = 0;
+              
                 board.Move_To_From(blank, whose_turn, false);
-                board.empty_field.Remove(blank.Move_to);
-
-                blank.Move_to = 1;
-                board.Move_To_From(blank, whose_turn, false);
-                board.empty_field.Remove(blank.Move_to);
-
-                blank.Move_to = 2;
-                board.Move_To_From(blank, whose_turn, false);
-                board.empty_field.Remove(blank.Move_to);
+                board.empty_field.Remove(0); 
+                board.empty_field.Remove(1); 
+                board.empty_field.Remove(2);
 
             }
             else {
@@ -326,7 +290,6 @@ namespace TsoroYematatu {
                 board.Move_To_From(blank, whose_turn, false);
                 board.empty_field.Remove(blank.Move_to);
             }
-
 
             if (blank.Move_from == 0 || blank.Move_from == 1 || blank.Move_from == 2) {
 
@@ -349,8 +312,6 @@ namespace TsoroYematatu {
             for (int i = 0; i < possible_moves.Count; i++) {
 
                 blank = (Move)possible_moves[i];
-
-                Console.WriteLine(blank.Result_weight);
 
                 if (blank.Result_weight >= highest_value) {
 
@@ -380,14 +341,10 @@ namespace TsoroYematatu {
             int highest_value = 1000;
             ArrayList best_option = new ArrayList();
             Move blank;
-
-
-
+     
             for (int i = 0; i < possible_moves.Count; i++) {
 
-                blank = (Move)possible_moves[i];
-
-                Console.WriteLine(blank.Result_weight);
+                blank = (Move)possible_moves[i];           
 
                 if (blank.Result_weight <= highest_value) {
 

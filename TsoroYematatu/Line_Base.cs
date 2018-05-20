@@ -18,7 +18,7 @@ namespace TsoroYematatu {
             // >3 takie same<
 
             Add_To_Line_Base_Array(0, Pawn.Empty, Pawn.Empty, Pawn.Empty, 0);
-            Add_To_Line_Base_Array(1, Pawn.White, Pawn.White, Pawn.White, 100);
+            Add_To_Line_Base_Array(1, Pawn.White, Pawn.White, Pawn.White, -100);
             Add_To_Line_Base_Array(2, Pawn.Black, Pawn.Black, Pawn.Black, 100);
 
             // >1 czarny 2 puste<
