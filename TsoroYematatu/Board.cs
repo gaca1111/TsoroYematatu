@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -151,6 +152,36 @@ namespace TsoroYematatu {
                     }
 
                     if (last_board_state[i, j] == Pawn.Empty) {
+
+                        Console.Write(". ");
+                    }
+
+
+                }
+
+                Console.WriteLine();
+            }
+
+            Console.WriteLine();
+        }
+
+        public void Print_Exp_Board() {
+
+            for (int i = 0; i < board_size; i++) {
+
+                for (int j = 0; j < board_size; j++) {
+
+                    if (experimental_board_state[i, j] == Pawn.White) {
+
+                        Console.Write("O ");
+                    }
+
+                    if (experimental_board_state[i, j] == Pawn.Black) {
+
+                        Console.Write("X ");
+                    }
+
+                    if (experimental_board_state[i, j] == Pawn.Empty) {
 
                         Console.Write(". ");
                     }
@@ -432,5 +463,165 @@ namespace TsoroYematatu {
 
             return -1000;
         }
+
+        private bool Check_Last_Experimental() {
+
+
+            for (int i = 0; i < board_size; i++) {
+
+                for (int j = 0; j < board_size; j++) {
+
+                    if (last_board_state[i, j] != experimental_board_state[i, j]) {
+
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+
+
+        public void Write_Last_Board(Pawn pawn_type) {
+
+            bool exists = false;
+            
+            int line_counter = 0;
+
+            int x = 0;
+            int y = 0;
+            int counter = 0;
+            int place = 0;
+
+            int weight = 0;
+
+
+            foreach (string line in File.ReadLines("Board_Base.txt")) {
+
+                if (exists) {
+
+                    weight = Int32.Parse(line);
+                    break;
+                }
+
+                place = counter;
+
+                if (counter != 9) {
+
+                    for (int i = 0; i < board_size; i++) {
+
+                        for (int j = 0; j < board_size; j++) {
+
+                            if (place == 0) {
+
+                                x = i;
+                                y = j;
+                            }
+
+                            place--;
+                        }
+                    }
+
+                    if (line == "White") {
+
+                        experimental_board_state[x, y] = Pawn.White;
+                    }
+
+                    if (line == "Black") {
+
+                        experimental_board_state[x, y] = Pawn.Black;
+                    }
+
+                    if (line == "Empty") {
+
+                        experimental_board_state[x, y] = Pawn.Empty;
+                    }
+                }
+               
+               
+
+                line_counter++;
+                counter++;
+          
+                if (counter == 9) {
+
+                   
+
+                    Print_Exp_Board();
+                    
+
+                    if (Check_Last_Experimental()) {
+
+                        exists = true;
+                    }
+                }
+
+                if (counter == 10) {
+
+                    counter = 0;
+                }
+            }
+
+
+
+            if (exists) {
+
+                Console.WriteLine("je");
+
+                if (pawn_type == Pawn.White) {
+
+                    weight--;
+                }
+                else {
+
+                    weight++; ;
+                }
+
+                Line_Changer(weight.ToString(), "Board_Base.txt", line_counter);
+            }
+            else {
+
+
+                using (StreamWriter w = File.AppendText("Board_Base.txt")) {
+
+                    for (int i = 0; i < board_size; i++) {
+
+                        for (int j = 0; j < board_size; j++) {
+
+                            w.WriteLine(last_board_state[i, j]);
+
+
+                        }
+
+                    }
+
+                    if (pawn_type == Pawn.White) {
+
+                        w.WriteLine(-1);
+                    }
+                    else {
+
+                        w.WriteLine(1);
+                    }
+                }
+
+
+
+
+
+
+            }
+
+        }
+
+        static void Line_Changer(string newText, string fileName, int line_to_edit) {
+
+            string[] arrLine = File.ReadAllLines(fileName);
+            arrLine[line_to_edit] = newText;
+            File.WriteAllLines(fileName, arrLine);
+        }
     }
+
+
 }

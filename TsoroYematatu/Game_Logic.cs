@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -202,9 +203,11 @@ namespace TsoroYematatu {
 
             Console.WriteLine("Winner - " + winner);
 
-            board.Print_Last_Board();
+           
 
-            
+            board.Write_Last_Board(winner);
+
+
         }
 
         private void Find_Moves_Second_Phase() {
