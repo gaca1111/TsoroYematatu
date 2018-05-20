@@ -65,6 +65,12 @@ namespace TsoroYematatu {
         private Pawn[,] board_state = new Pawn[board_size, board_size];
         private Pawn[,] experimental_board_state = new Pawn[board_size, board_size];
 
+        public int Get_Board_Size() {
+
+            return board_size;
+        }
+
+
         public Board() {
 
             Setup_Board();
@@ -102,7 +108,22 @@ namespace TsoroYematatu {
 
                 for (int j = 0; j < board_size; j++) {
 
-                    Console.Write(experimental_board_state[i, j] + "");                   
+                    if (experimental_board_state[i, j] == Pawn.White) {
+
+                        Console.Write("O ");
+                    }
+
+                    if (experimental_board_state[i, j] == Pawn.Black) {
+
+                        Console.Write("X ");
+                    }
+
+                    if (experimental_board_state[i, j] == Pawn.Empty) {
+
+                        Console.Write(". ");
+                    }
+
+
                 }
 
                 Console.WriteLine();
@@ -119,13 +140,32 @@ namespace TsoroYematatu {
 
             move.Result_weight = Check_Lines(experimental) + field_weight;
 
-            for (int i = 0; i < board_size; i++) {
+            Clear_Experimental_Board_State();
 
-                for (int j = 0; j < board_size; j++) {
+            return move;
+        }
 
-                    experimental_board_state[i, j] = board_state[i, j];
-                }
+        public Move Move_To_From(Move move, Pawn pawn_type, bool experimental) {
+
+            int field_weight = Get_Board_Field_Weight(move.Move_to);
+
+            Set_Board_State(move.Move_to, pawn_type, experimental);
+
+            if (move.Move_from == 0 || move.Move_from == 1 || move.Move_from == 2) {
+
+                Set_Board_State(0, Pawn.Empty, experimental);
+                Set_Board_State(1, Pawn.Empty, experimental);
+                Set_Board_State(2, Pawn.Empty, experimental);
+
             }
+            else {
+
+                Set_Board_State(move.Move_from, Pawn.Empty, experimental);
+            }
+            
+            move.Result_weight = Check_Lines(experimental) + field_weight;
+
+            Clear_Experimental_Board_State();
 
             return move;
         }
@@ -236,6 +276,54 @@ namespace TsoroYematatu {
                     place--;             
                 }
             }
+        }
+
+        private void Clear_Experimental_Board_State() {
+
+            for (int i = 0; i < board_size; i++) {
+
+                for (int j = 0; j < board_size; j++) {
+
+                    experimental_board_state[i, j] = board_state[i, j];
+                }
+            }
+
+        }
+
+        public bool Check_Board_State(Pawn pawn_type, int jump_left_right, int jump_up_down, int place, int x, int y) {
+
+            if (x + jump_left_right < 0 || x + jump_left_right >= board_size) {
+
+                return false;
+            }
+
+            if (y + jump_up_down < 0 || y + jump_up_down >= board_size) {
+
+                return false;
+            }
+
+
+            for (int i = 0; i < board_size; i++) {
+
+                for (int j = 0; j < board_size; j++) {
+
+                    if (place == 0) {
+
+                        if (board_state[i, j] == pawn_type) {
+                        
+                            return true;
+                        }
+                        else {
+
+                            return false;
+                        }         
+                    }
+
+                    place--;
+                }
+            }
+
+            return false;
         }
 
         private int Get_Board_Field_Weight(int place) {
