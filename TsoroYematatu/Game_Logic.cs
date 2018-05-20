@@ -202,7 +202,7 @@ namespace TsoroYematatu {
 
             Console.WriteLine("Winner - " + winner);
 
-           
+            board.Print_Last_Board();
 
             
         }

@@ -64,6 +64,7 @@ namespace TsoroYematatu {
 
         private Pawn[,] board_state = new Pawn[board_size, board_size];
         private Pawn[,] experimental_board_state = new Pawn[board_size, board_size];
+        private Pawn[,] last_board_state = new Pawn[board_size, board_size];
 
         public int Get_Board_Size() {
 
@@ -87,6 +88,7 @@ namespace TsoroYematatu {
 
                     board_state[i, j] = Pawn.Empty;
                     experimental_board_state[i, j] = Pawn.Empty;
+                    last_board_state[i, j] = Pawn.Empty;
 
                 }
             }       
@@ -108,17 +110,47 @@ namespace TsoroYematatu {
 
                 for (int j = 0; j < board_size; j++) {
 
-                    if (experimental_board_state[i, j] == Pawn.White) {
+                    if (board_state[i, j] == Pawn.White) {
 
                         Console.Write("O ");
                     }
 
-                    if (experimental_board_state[i, j] == Pawn.Black) {
+                    if (board_state[i, j] == Pawn.Black) {
 
                         Console.Write("X ");
                     }
 
-                    if (experimental_board_state[i, j] == Pawn.Empty) {
+                    if (board_state[i, j] == Pawn.Empty) {
+
+                        Console.Write(". ");
+                    }
+
+
+                }
+
+                Console.WriteLine();
+            }
+
+            Console.WriteLine();
+        }
+
+        public void Print_Last_Board() {
+
+            for (int i = 0; i < board_size; i++) {
+
+                for (int j = 0; j < board_size; j++) {
+
+                    if (last_board_state[i, j] == Pawn.White) {
+
+                        Console.Write("O ");
+                    }
+
+                    if (last_board_state[i, j] == Pawn.Black) {
+
+                        Console.Write("X ");
+                    }
+
+                    if (last_board_state[i, j] == Pawn.Empty) {
 
                         Console.Write(". ");
                     }
@@ -133,6 +165,11 @@ namespace TsoroYematatu {
         }
 
         public Move Move_To(Move move, Pawn pawn_type, bool experimental) {
+
+            if (!experimental) {
+
+                Update_Last_Board_State();
+            }
 
             int field_weight = Get_Board_Field_Weight(move.Move_to);
 
@@ -151,6 +188,11 @@ namespace TsoroYematatu {
         }
 
         public Move Move_To_From(Move move, Pawn pawn_type, bool experimental) {
+
+            if (!experimental) {
+
+                Update_Last_Board_State();
+            }
 
             int field_weight = Get_Board_Field_Weight(move.Move_to);
 
@@ -324,7 +366,17 @@ namespace TsoroYematatu {
                     experimental_board_state[i, j] = board_state[i, j];
                 }
             }
+        }
 
+        private void Update_Last_Board_State() {
+
+            for (int i = 0; i < board_size; i++) {
+
+                for (int j = 0; j < board_size; j++) {
+
+                    last_board_state[i, j] = board_state[i, j];
+                }
+            }
         }
 
         public bool Check_Board_State(Pawn pawn_type, int jump_left_right, int jump_up_down, int place, int x, int y) {
