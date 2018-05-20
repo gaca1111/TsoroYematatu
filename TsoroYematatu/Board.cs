@@ -175,6 +175,33 @@ namespace TsoroYematatu {
             return Check_Left_Line(experimental) + Check_Interior_Line(experimental) + Check_Right_Line(experimental) + Check_Middle_Line(experimental)+ Check_Lower_Line(experimental);
         }
 
+        public Pawn Check_Lines_Victory() {
+
+            int result1;
+            int result2;
+            int result3;
+            int result4;
+            int result5;
+
+            result1 = Check_Left_Line(false);
+            result2 = Check_Right_Line(false);
+            result3 = Check_Interior_Line(false);
+            result4 = Check_Middle_Line(false);
+            result5 = Check_Lower_Line(false);
+
+            if (result1 == 100 || result2 == 100 || result3 == 100 || result4 == 100 || result5 == 100) {
+
+                return Pawn.Black;
+            }
+
+            if (result1 == -100 || result2 == -100 || result3 == -100 || result4 == -100 || result5 == -100) {
+
+                return Pawn.White;
+            }
+
+            return Pawn.Empty;
+        }
+
         private int Check_Left_Line(bool experimental) {
 
             Line line;

@@ -55,8 +55,6 @@ namespace TsoroYematatu {
             }
         }
 
-
-
         public Move(int _move_to) {
 
             Move_to = _move_to;
@@ -68,18 +66,19 @@ namespace TsoroYematatu {
             Move_from = _move_from;
         }
     }
+
     public class Game_Logic {
 
-        private Game_Phase game_phase;
         private int first_phase_counter = 6;
         private Pawn whose_turn;
+        private bool wictory = true;
+        private Pawn winner;
 
         private Board board;
         private ArrayList possible_moves;
 
         public void Start_Game() {
 
-            game_phase = Game_Phase.First;
             whose_turn = Pawn.White;
 
             board = new Board();
@@ -172,11 +171,8 @@ namespace TsoroYematatu {
         }
 
         private void Second_Phase() {
-
-            game_phase = Game_Phase.Second;
-
-            while (true) {
-
+  
+            while (wictory) {
 
                 Find_Moves_Second_Phase();
 
@@ -203,13 +199,25 @@ namespace TsoroYematatu {
 
                 Console.WriteLine(board.empty_field[0]);
 
-                Change_Turn();
+                winner = board.Check_Lines_Victory();
+
+                if (winner != Pawn.Empty) {
+
+                    wictory = false;
+                }
+
+
+   
+
+                
 
                 Console.ReadLine();
 
 
 
             }
+
+            Console.WriteLine("Winner - " + winner);
 
            
 
@@ -290,11 +298,7 @@ namespace TsoroYematatu {
 
                     possible_moves.Add(new Move(place, place - 6));
                 }
-
-
             }
-
-          
         }
 
 
@@ -366,6 +370,7 @@ namespace TsoroYematatu {
                 board.empty_field.Add(blank.Move_from);
             }     
         }
+
 
 
         private void Change_Turn() {
