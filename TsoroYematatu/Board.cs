@@ -136,6 +136,11 @@ namespace TsoroYematatu {
 
             int field_weight = Get_Board_Field_Weight(move.Move_to);
 
+            if (pawn_type == Pawn.White) {
+
+                field_weight = field_weight * -1;
+            } 
+
             Set_Board_State(move.Move_to, pawn_type, experimental);
 
             move.Result_weight = Check_Lines(experimental) + field_weight;
@@ -148,6 +153,11 @@ namespace TsoroYematatu {
         public Move Move_To_From(Move move, Pawn pawn_type, bool experimental) {
 
             int field_weight = Get_Board_Field_Weight(move.Move_to);
+
+            if (pawn_type == Pawn.White) {
+
+                field_weight = field_weight * -1;
+            }
 
             Set_Board_State(move.Move_to, pawn_type, experimental);
 

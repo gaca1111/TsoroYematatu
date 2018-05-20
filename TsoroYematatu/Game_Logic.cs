@@ -72,7 +72,7 @@ namespace TsoroYematatu {
         private int first_phase_counter = 6;
         private Pawn whose_turn;
         private bool wictory = true;
-        private Pawn winner;
+        private Pawn winner = Pawn.Empty;
 
         private Board board;
         private ArrayList possible_moves;
@@ -119,35 +119,18 @@ namespace TsoroYematatu {
    
                 possible_moves[i] = board.Move_To((Move)possible_moves[i], whose_turn, true);
             }
-
-            int highest_value = -1000;
-            ArrayList best_option = new ArrayList();
+  
             Move blank;
 
-            for (int i = 0; i < possible_moves.Count; i++) {
+            if (whose_turn == Pawn.Black) {
 
-                blank = (Move)possible_moves[i];
-
-                if (blank.Result_weight >= highest_value) {
-
-                    if (blank.Result_weight == highest_value) {
-
-                        highest_value = blank.Result_weight;
-                        best_option.Add(blank);
-                    }
-                    else {
-
-                        highest_value = blank.Result_weight;
-                        best_option.Clear();
-                        best_option.Add(blank);
-                    }     
-                }
+                blank = Find_Best_Move_Black();
             }
+            else {
 
-            Random rnd = new Random();
-            int index = rnd.Next(0, best_option.Count);    
-            blank = (Move)best_option[index];
-
+                blank = Find_Best_Move_White();
+            }
+                   
             if (blank.Move_to == 0 || blank.Move_to == 1 || blank.Move_to == 2) {
 
                 blank.Move_to = 0;
@@ -176,7 +159,7 @@ namespace TsoroYematatu {
 
                 Find_Moves_Second_Phase();
 
-                Console.WriteLine();
+                Console.WriteLine("-------");
 
                 for (int i = 0; i < possible_moves.Count; i++) {
 
@@ -197,7 +180,7 @@ namespace TsoroYematatu {
 
                 board.Print_Board();
 
-                Console.WriteLine(board.empty_field[0]);
+               
 
                 winner = board.Check_Lines_Victory();
 
@@ -207,7 +190,7 @@ namespace TsoroYematatu {
                 }
 
 
-   
+                Change_Turn();
 
                 
 
@@ -309,33 +292,16 @@ namespace TsoroYematatu {
                 possible_moves[i] = board.Move_To_From((Move)possible_moves[i], whose_turn, true);
             }
 
-            int highest_value = -1000;
-            ArrayList best_option = new ArrayList();
             Move blank;
 
-            for (int i = 0; i < possible_moves.Count; i++) {
+            if (whose_turn == Pawn.Black) {
 
-                blank = (Move)possible_moves[i];
-
-                if (blank.Result_weight >= highest_value) {
-
-                    if (blank.Result_weight == highest_value) {
-
-                        highest_value = blank.Result_weight;
-                        best_option.Add(blank);
-                    }
-                    else {
-
-                        highest_value = blank.Result_weight;
-                        best_option.Clear();
-                        best_option.Add(blank);
-                    }
-                }
+                blank = Find_Best_Move_Black();
             }
+            else {
 
-            Random rnd = new Random();
-            int index = rnd.Next(0, best_option.Count);
-            blank = (Move)best_option[index];
+                blank = Find_Best_Move_White();
+            }
 
             if (blank.Move_to == 0 || blank.Move_to == 1 || blank.Move_to == 2) {
 
@@ -371,7 +337,77 @@ namespace TsoroYematatu {
             }     
         }
 
+        private Move Find_Best_Move_Black() {
 
+            int highest_value = -1000;
+            ArrayList best_option = new ArrayList();
+            Move blank;
+
+            for (int i = 0; i < possible_moves.Count; i++) {
+
+                blank = (Move)possible_moves[i];
+
+                Console.WriteLine(blank.Result_weight);
+
+                if (blank.Result_weight >= highest_value) {
+
+                    if (blank.Result_weight == highest_value) {
+
+                        highest_value = blank.Result_weight;
+                        best_option.Add(blank);
+                    }
+                    else {
+
+                        highest_value = blank.Result_weight;
+                        best_option.Clear();
+                        best_option.Add(blank);
+                    }
+                }
+            }
+
+            Random rnd = new Random();
+            int index = rnd.Next(0, best_option.Count);
+            blank = (Move)best_option[index];
+
+            return blank;
+        }
+
+        private Move Find_Best_Move_White() {
+
+            int highest_value = 1000;
+            ArrayList best_option = new ArrayList();
+            Move blank;
+
+
+
+            for (int i = 0; i < possible_moves.Count; i++) {
+
+                blank = (Move)possible_moves[i];
+
+                Console.WriteLine(blank.Result_weight);
+
+                if (blank.Result_weight <= highest_value) {
+
+                    if (blank.Result_weight == highest_value) {
+
+                        highest_value = blank.Result_weight;
+                        best_option.Add(blank);
+                    }
+                    else {
+
+                        highest_value = blank.Result_weight;
+                        best_option.Clear();
+                        best_option.Add(blank);
+                    }
+                }
+            }
+
+            Random rnd = new Random();
+            int index = rnd.Next(0, best_option.Count);
+            blank = (Move)best_option[index];
+
+            return blank;
+        }
 
         private void Change_Turn() {
 
