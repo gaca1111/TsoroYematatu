@@ -7,12 +7,11 @@
 <META NAME="TITLE" CONTENT="Tsoro Yematatu">
 <META NAME="DESCRIPTION" CONTENT="Tsoro Yematatu - The african version of Tic Tac Toe">
 <link rel="stylesheet" href="Style.css" >
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-  
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/JavaScript" language="JavaScript1.2">
 var gameovertxt = 'Koniec gry!  ';
-var blacktxt = 'Czerwone';
-var whitetxt = 'Zolte';
+var blacktxt = 'Czarne';
+var whitetxt = 'Biale';
 var wintxt = ' wygrywaja.';
 var cantmovetxt = ' nie moga sie ruszyc.\n';
 var movesagaintxt = ' moga sie ruszyc ponownie.';
@@ -51,13 +50,13 @@ function docenter()
   t = (t - 250) / 2;
 
   document.images['field'].style.left =  l + 'px';
-  document.images['field0'].style.left = (l+141) + 'px';
-  document.images['field1'].style.left = (l+ 60) + 'px';
-  document.images['field2'].style.left = (l+141) + 'px';
-  document.images['field3'].style.left = (l+222) + 'px';
-  document.images['field4'].style.left = (l+  0) + 'px';
-  document.images['field5'].style.left = (l+141) + 'px';
-  document.images['field6'].style.left = (l+282) + 'px';
+  document.images['field0'].style.left = (l+154) + 'px';
+  document.images['field1'].style.left = (l+ 73) + 'px';
+  document.images['field2'].style.left = (l+154) + 'px';
+  document.images['field3'].style.left = (l+235) + 'px';
+  document.images['field4'].style.left = (l+  13) + 'px';
+  document.images['field5'].style.left = (l+154) + 'px';
+  document.images['field6'].style.left = (l+295) + 'px';
 
   document.forms['score'].elements['startbut'].style.left = (l+10) + 'px';
 }
@@ -404,21 +403,25 @@ function mousein(node)
 </center>
 </div>
 <hr/>
+<div class="info">
+Zaczynaja zawsze biale pionki, celem rozgrywki jest ulozenie trzech pionkow w jednej linii.
+</div>
+<hr/>
+
 <div>
 <script type="text/JavaScript" language="JavaScript1.2">
   document.write('<img src="board.png" id="field" style="POSITION: relative;">');
   var element = document.getElementById('field');
   var elem = element.getBoundingClientRect();
-  console.log(elem.right, elem.top);
   var xbase = elem.right;
+  var xmax = elem.left;
   var ybase = elem.top;
-
-  document.write('<img src="b0.png" id="field0" style="LEFT: ' +(xbase+141)+ 'px; TOP: ' +(ybase+  0)+ 'px; POSITION: absolute;" OnClick="clicknode(0)" onMouseOver="mousein(0)">');
+  document.write('<img src="b0.png" id="field0" style="LEFT: ' +(xmax+142)+ 'px; TOP: ' +(ybase+  0)+ 'px; POSITION: absolute;" OnClick="clicknode(0)" onMouseOver="mousein(0)">');
   document.write('<img src="b0.png" id="field1" style="LEFT: ' +(xbase+ 60)+ 'px; TOP: ' +(ybase+100)+ 'px; POSITION: absolute;" OnClick="clicknode(1)" onMouseOver="mousein(1)">');
-  document.write('<img src="b0.png" id="field2" style="LEFT: ' +(xbase+141)+ 'px; TOP: ' +(ybase+100)+ 'px; POSITION: absolute;" OnClick="clicknode(2)" onMouseOver="mousein(2)">');
+  document.write('<img src="b0.png" id="field2" style="LEFT: ' +(xbase+142)+ 'px; TOP: ' +(ybase+100)+ 'px; POSITION: absolute;" OnClick="clicknode(2)" onMouseOver="mousein(2)">');
   document.write('<img src="b0.png" id="field3" style="LEFT: ' +(xbase+222)+ 'px; TOP: ' +(ybase+100)+ 'px; POSITION: absolute;" OnClick="clicknode(3)" onMouseOver="mousein(3)">');
   document.write('<img src="b0.png" id="field4" style="LEFT: ' +(xbase+  0)+ 'px; TOP: ' +(ybase+190)+ 'px; POSITION: absolute;" OnClick="clicknode(4)" onMouseOver="mousein(4)">');
-  document.write('<img src="b0.png" id="field5" style="LEFT: ' +(xbase+141)+ 'px; TOP: ' +(ybase+190)+ 'px; POSITION: absolute;" OnClick="clicknode(5)" onMouseOver="mousein(5)">');
+  document.write('<img src="b0.png" id="field5" style="LEFT: ' +(xbase+142)+ 'px; TOP: ' +(ybase+190)+ 'px; POSITION: absolute;" OnClick="clicknode(5)" onMouseOver="mousein(5)">');
   document.write('<img src="b0.png" id="field6" style="LEFT: ' +(xbase+282)+ 'px; TOP: ' +(ybase+190)+ 'px; POSITION: absolute;" OnClick="clicknode(6)" onMouseOver="mousein(6)">');
 
   document.write('<form name="score">');
