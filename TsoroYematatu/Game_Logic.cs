@@ -143,6 +143,8 @@ namespace TsoroYematatu {
                     break;
                 }
 
+                board.Write_Stale_Last_Board();
+
                 Change_Turn();
 
                 if (game_mode == Game_Mode.PlayervsPlayer) {
@@ -157,7 +159,7 @@ namespace TsoroYematatu {
 
                 Console.WriteLine("Winner - " + winner);
 
-                board.Write_Last_Board(winner);
+                board.Write_Base_Last_Board(winner);
 
             }
             else {
@@ -269,6 +271,8 @@ namespace TsoroYematatu {
                     wictory = false;
                 }
 
+                board.Write_Stale_Last_Board();
+
                 Change_Turn();
 
                 if (game_mode == Game_Mode.PlayervsPlayer) {
@@ -281,7 +285,7 @@ namespace TsoroYematatu {
 
             Console.WriteLine("Winner - " + winner);
 
-            board.Write_Last_Board(winner);
+            board.Write_Base_Last_Board(winner);
         }
 
         private void Find_Moves_Second_Phase() {

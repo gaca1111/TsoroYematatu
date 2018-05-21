@@ -58,7 +58,8 @@ namespace TsoroYematatu {
 
         private static int[,] board_field_weight = new int[3, 3] {{5,5,5},{3,8,3},{0,1,0}};
         private static int board_size = 3;
-        private static string txt_name = "Board_Base.txt";
+        private static string txt_base_name = "Board_Base.txt";
+        private static string txt_stale_name = "Stalemate_Base.txt";
 
         private Line_Base line_base; 
         
@@ -217,9 +218,16 @@ namespace TsoroYematatu {
                 Set_Board_State(move.Move_to, pawn_type, experimental);
             }
 
-            move.Result_weight = Check_Lines(experimental) + field_weight + Find_Board();
+            int stale = Find_Board(txt_stale_name);
 
-            Console.WriteLine("plansza " + Find_Board() +" "  + move.Result_weight);
+            if (pawn_type == Pawn.Black) {
+
+                stale = stale * -1;
+            }
+
+            move.Result_weight = Check_Lines(experimental) + field_weight + Find_Board(txt_base_name) + stale;
+
+            Console.WriteLine("plansza " + Find_Board(txt_base_name) + " " + stale + " " + move.Result_weight);
 
             Print_Exp_Board();
 
@@ -266,9 +274,16 @@ namespace TsoroYematatu {
                 Set_Board_State(move.Move_from, Pawn.Empty, experimental);
             }
 
-            move.Result_weight = Check_Lines(experimental) + field_weight + Find_Board();
+            int stale = Find_Board(txt_stale_name);
 
-            Console.WriteLine("plansza " + Find_Board() + " " + move.Result_weight);
+            if (pawn_type == Pawn.Black) {
+
+                stale = stale * -1;
+            }
+
+            move.Result_weight = Check_Lines(experimental) + field_weight + Find_Board(txt_base_name) + stale;
+
+            Console.WriteLine("plansza " + Find_Board(txt_base_name) + " " + stale + " "+ move.Result_weight);
 
             Print_Exp_Board();
 
@@ -520,7 +535,7 @@ namespace TsoroYematatu {
             return true;
         }
 
-        private int Find_Board() {
+        private int Find_Board(string txt_name) {
 
             bool exists = false;
 
@@ -600,7 +615,7 @@ namespace TsoroYematatu {
             return 0;
         }
 
-        public void Write_Last_Board(Pawn pawn_type) {
+        public void Write_Base_Last_Board(Pawn pawn_type) {
 
             bool exists = false;
             
@@ -613,7 +628,7 @@ namespace TsoroYematatu {
 
             int weight = 0;
 
-            foreach (string line in File.ReadLines(txt_name)) {
+            foreach (string line in File.ReadLines(txt_base_name)) {
 
                 if (exists) {
 
@@ -680,14 +695,14 @@ namespace TsoroYematatu {
                 }
                 else {
 
-                    weight++; ;
+                    weight++;
                 }
 
-                Line_Changer(weight.ToString(), txt_name, line_counter);
+                Line_Changer(weight.ToString(), txt_base_name, line_counter);
             }
             else {
 
-                using (StreamWriter w = File.AppendText(txt_name)) {
+                using (StreamWriter w = File.AppendText(txt_base_name)) {
 
                     Console.WriteLine("new win");
 
@@ -711,9 +726,107 @@ namespace TsoroYematatu {
             }
         }
 
+        public void Write_Stale_Last_Board() {
+
+            bool exists = false;
+
+            int line_counter = 0;
+
+            int x = 0;
+            int y = 0;
+            int counter = 0;
+            int place = 0;
+
+            int weight = 0;
+
+            foreach (string line in File.ReadLines(txt_stale_name)) {
+
+                if (exists) {
+
+                    weight = Int32.Parse(line);
+                    break;
+                }
+
+                place = counter;
+
+                if (counter != 9) {
+
+                    for (int i = 0; i < board_size; i++) {
+
+                        for (int j = 0; j < board_size; j++) {
+
+                            if (place == 0) {
+
+                                x = i;
+                                y = j;
+                            }
+
+                            place--;
+                        }
+                    }
+
+                    if (line == "White") {
+
+                        experimental_board_state[x, y] = Pawn.White;
+                    }
+
+                    if (line == "Black") {
+
+                        experimental_board_state[x, y] = Pawn.Black;
+                    }
+
+                    if (line == "Empty") {
+
+                        experimental_board_state[x, y] = Pawn.Empty;
+                    }
+                }
+
+                line_counter++;
+                counter++;
+
+                if (counter == 9) {
+
+                    if (Check_Last_Experimental()) {
+
+                        exists = true;
+                    }
+                }
+
+                if (counter == 10) {
+
+                    counter = 0;
+                }
+            }
+
+            if (exists) {
+
+                weight++;
+                Line_Changer(weight.ToString(), txt_stale_name, line_counter);
+            }
+            else {
+
+                using (StreamWriter w = File.AppendText(txt_stale_name)) {
+
+                    Console.WriteLine("new stale");
+
+                    for (int i = 0; i < board_size; i++) {
+
+                        for (int j = 0; j < board_size; j++) {
+
+                            w.WriteLine(last_board_state[i, j]);
+                        }
+                    }
+
+                    w.WriteLine(1);                
+                }
+            }
+
+            Clear_Experimental_Board_State();
+        }
+
         static void Line_Changer(string newText, string fileName, int line_to_edit) {
 
-            Console.WriteLine("old win " + newText);
+            Console.WriteLine("old " + newText);
 
             string[] arrLine = File.ReadAllLines(fileName);
             arrLine[line_to_edit] = newText;
