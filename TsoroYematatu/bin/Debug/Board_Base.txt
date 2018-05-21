@@ -158,3 +158,13 @@ White
 White
 Black
 1
+White
+White
+White
+White
+Black
+Black
+Empty
+Empty
+Empty
+-1

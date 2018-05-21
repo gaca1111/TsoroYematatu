@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace TsoroYematatu {
 
-    public enum Game_Mode { AIvsAI, PlayervsAI };
+    public enum Game_Mode { AIvsAI, PlayervsAI, PlayervsPlayer };
 
     public class Move {
 
@@ -83,13 +83,17 @@ namespace TsoroYematatu {
         public void Start_Game(Game_Mode _game_mode, Pawn _player_pawn) {
 
             game_mode = _game_mode;
-            
+            whose_turn = Pawn.White;
+
             if (game_mode == Game_Mode.PlayervsAI) {
 
                 player_pawn = _player_pawn;
             }
 
-            whose_turn = Pawn.White;
+            if (game_mode == Game_Mode.PlayervsPlayer) {
+
+                player_pawn = whose_turn;
+            }
 
             board = new Board();
             possible_moves = new ArrayList();
@@ -141,6 +145,11 @@ namespace TsoroYematatu {
 
                 Change_Turn();
 
+                if (game_mode == Game_Mode.PlayervsPlayer) {
+
+                    player_pawn = whose_turn;
+                }
+
                 Console.ReadLine();
             }
 
@@ -154,9 +163,7 @@ namespace TsoroYematatu {
             else {
 
                 Second_Phase();
-            }
-
-           
+            }          
         }
 
         private void Find_Moves_First_Phase() {
@@ -263,6 +270,11 @@ namespace TsoroYematatu {
                 }
 
                 Change_Turn();
+
+                if (game_mode == Game_Mode.PlayervsPlayer) {
+
+                    player_pawn = whose_turn;
+                }
 
                 Console.ReadLine();
             }
@@ -474,4 +486,3 @@ namespace TsoroYematatu {
         }
     }
 }
-
