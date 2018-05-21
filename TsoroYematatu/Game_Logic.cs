@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace TsoroYematatu {
 
-    public enum Game_Phase { First, Second };
+    public enum Game_Mode { AIvsAI, PlayervsAI };
 
     public class Move {
 
@@ -74,11 +74,20 @@ namespace TsoroYematatu {
         private Pawn whose_turn;
         private bool wictory = true;
         private Pawn winner = Pawn.Empty;
+        private Pawn player_pawn = Pawn.Empty;
+        private Game_Mode game_mode;
 
         private Board board;
         private ArrayList possible_moves;
 
-        public void Start_Game() {
+        public void Start_Game(Game_Mode _game_mode, Pawn _player_pawn) {
+
+            game_mode = _game_mode;
+            
+            if (game_mode == Game_Mode.PlayervsAI) {
+
+                player_pawn = _player_pawn;
+            }
 
             whose_turn = Pawn.White;
 
@@ -89,21 +98,65 @@ namespace TsoroYematatu {
         }
 
         private void First_Phase() {
-
+        
             for (int i = 0; i < first_phase_counter; i++) {
 
                 Console.WriteLine("------ " + whose_turn);
 
-                Find_Moves_First_Phase();
+                if (whose_turn == player_pawn) {
 
-                Evaluate_Moves_First_Phase();
+                    Console.WriteLine("Move to");
+
+                    Move blank = new Move(Int32.Parse(Console.ReadLine()));
+
+                    if (blank.Move_to == 0 || blank.Move_to == 1 || blank.Move_to == 2) {
+
+                        board.Move_To(blank, whose_turn, false);
+                        board.empty_field.Remove(0);
+                        board.empty_field.Remove(1);
+                        board.empty_field.Remove(2);
+                    }
+                    else {
+
+                        board.Move_To(blank, whose_turn, false);
+                        board.empty_field.Remove(blank.Move_to);
+                    }
+                }
+                else {
+
+                    Find_Moves_First_Phase();
+
+                    Evaluate_Moves_First_Phase();
+                }
 
                 board.Print_Board();
 
+                winner = board.Check_Lines_Victory();
+            
+                if (winner != Pawn.Empty) {
+
+                    wictory = false;
+                    break;
+                }
+
                 Change_Turn();
+
+                Console.ReadLine();
             }
 
-            Second_Phase();
+            if (wictory == false) {
+
+                Console.WriteLine("Winner - " + winner);
+
+                board.Write_Last_Board(winner);
+
+            }
+            else {
+
+                Second_Phase();
+            }
+
+           
         }
 
         private void Find_Moves_First_Phase() {
@@ -154,19 +207,56 @@ namespace TsoroYematatu {
 
                 Console.WriteLine("------ " + whose_turn);
 
-                Find_Moves_Second_Phase();
-              
-                for (int i = 0; i < possible_moves.Count; i++) {
+                if (whose_turn == player_pawn) {
 
-                    Move test = (Move)possible_moves[i];
+                    Console.WriteLine("Move to from");
+
+                    int to = Int32.Parse(Console.ReadLine());
+                    int from = Int32.Parse(Console.ReadLine());
+
+                    Move blank = new Move(to, from);
+
+                    if (blank.Move_to == 0 || blank.Move_to == 1 || blank.Move_to == 2) {
+
+                        board.Move_To_From(blank, whose_turn, false);
+                        board.empty_field.Remove(0);
+                        board.empty_field.Remove(1);
+                        board.empty_field.Remove(2);
+
+                    }
+                    else {
+
+                        board.Move_To_From(blank, whose_turn, false);
+                        board.empty_field.Remove(blank.Move_to);
+                    }
+
+                    if (blank.Move_from == 0 || blank.Move_from == 1 || blank.Move_from == 2) {
+
+                        board.empty_field.Add(0);
+                        board.empty_field.Add(1);
+                        board.empty_field.Add(2);
+                    }
+                    else {
+
+                        board.empty_field.Add(blank.Move_from);
+                    }
                 }
-         
-                Evaluate_Moves_Second_Phase();
+                else {
 
+                    Find_Moves_Second_Phase();
+
+                    for (int i = 0; i < possible_moves.Count; i++) {
+
+                        Move test = (Move)possible_moves[i];
+                    }
+
+                    Evaluate_Moves_Second_Phase();
+                }
+               
                 board.Print_Board();
              
                 winner = board.Check_Lines_Victory();
-
+        
                 if (winner != Pawn.Empty) {
 
                     wictory = false;
@@ -278,7 +368,6 @@ namespace TsoroYematatu {
 
             if (blank.Move_to == 0 || blank.Move_to == 1 || blank.Move_to == 2) {
 
-              
                 board.Move_To_From(blank, whose_turn, false);
                 board.empty_field.Remove(0); 
                 board.empty_field.Remove(1); 

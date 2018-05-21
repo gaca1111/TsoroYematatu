@@ -11,7 +11,7 @@ namespace TsoroYematatu {
 
             Game_Logic g = new Game_Logic();
 
-            g.Start_Game();
+            g.Start_Game(Game_Mode.PlayervsAI, Pawn.White);
         }
     }
 }

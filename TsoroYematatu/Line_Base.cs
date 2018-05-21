@@ -35,15 +35,15 @@ namespace TsoroYematatu {
 
             // >2 czarne 1 pusty<
 
-            Add_To_Line_Base_Array(9, Pawn.Black, Pawn.Black, Pawn.Empty, 12);
-            Add_To_Line_Base_Array(10, Pawn.Empty, Pawn.Black, Pawn.Black, 12);
-            Add_To_Line_Base_Array(11, Pawn.Black, Pawn.Empty, Pawn.Black, 12);
+            Add_To_Line_Base_Array(9, Pawn.Black, Pawn.Black, Pawn.Empty, 30);
+            Add_To_Line_Base_Array(10, Pawn.Empty, Pawn.Black, Pawn.Black, 30);
+            Add_To_Line_Base_Array(11, Pawn.Black, Pawn.Empty, Pawn.Black, 30);
 
             // >2 biale 1 pusty<
 
-            Add_To_Line_Base_Array(12, Pawn.White, Pawn.White, Pawn.Empty, -12);
-            Add_To_Line_Base_Array(13, Pawn.Empty, Pawn.White, Pawn.White, -12);
-            Add_To_Line_Base_Array(14, Pawn.White, Pawn.Empty, Pawn.White, -12);
+            Add_To_Line_Base_Array(12, Pawn.White, Pawn.White, Pawn.Empty, -30);
+            Add_To_Line_Base_Array(13, Pawn.Empty, Pawn.White, Pawn.White, -30);
+            Add_To_Line_Base_Array(14, Pawn.White, Pawn.Empty, Pawn.White, -30);
 
             // >czarny bialy pusty<
 
