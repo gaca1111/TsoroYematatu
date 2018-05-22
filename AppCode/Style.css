@@ -1,0 +1,41 @@
+body{
+    background-color: lightgray;
+}
+
+a:link {
+    color: white;
+    text-decoration: none;
+}
+
+a:visited {
+    color: gainsboro;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.info {
+    background-color: lightgray;
+    padding: 0.1%;
+}
+
+.header{
+    background-color: gray;
+    padding: 0.1%;
+}
+
+.button{
+    background-color: gray;
+    padding: 30px;
+}
+
+.StartButtonPvP {
+    visibility: hidden;
+    background-color: gray;
+}
+
+.hidden {
+    visibility: hidden;
+}
