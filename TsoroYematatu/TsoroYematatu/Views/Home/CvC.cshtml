@@ -1,0 +1,62 @@
+﻿@using System.Drawing
+@using Microsoft.Ajax.Utilities
+@model dynamic
+
+@functions 
+{
+
+    string GetPawnType(int fieldNumber)
+    {
+        switch (Model.fields[fieldNumber])
+        {
+            case 1:
+                return "/Images/white.png";
+            case 2:
+                return "/Images/black.png";
+            default:
+                return "/Images/b0.png";
+        }
+    }
+}
+
+<div class="header">
+    @Styles.Render("~/Content/Style.css")
+    <div style="text-align: center;">
+        <h1>Tsoro Yematatu - Komputer kontra Komputer</h1>
+    </div>
+</div>
+<hr/>
+<div class="info">
+    <div style="text-align: center;">
+        <h3>Zaczynaja zawsze biale pionki, celem rozgrywki jest ulozenie trzech pionkow w jednej linii.</h3>
+        <hr />
+        <a href="@Url.Action("FieldClick", "Home", new {field0 = Model.fields[0], field1 = Model.fields[1], field2 = Model.fields[2],
+                     field3 = Model.fields[3],  field4 = Model.fields[4], field5 = Model.fields[5], field6 = Model.fields[6], stone0 = Model.stones[0], stone1 = Model.stones[1],
+                     turn = Model.turn, fieldNumber = 0, gameType = 3})">Zacznij grę</a>
+    </div>
+    <hr />
+</div>
+<div style="position: relative" class="centered width33">
+    <img src="~/Images/board.png" id="field" alt="">
+    <div id="field0" style="position: absolute; left: 142px; top: 0">
+        <img src="@GetPawnType(0)" id="image0" alt="" />
+    </div>
+    <div id="field1" style="position: absolute; left: 60px; top: 100px">
+        <img src="@GetPawnType(1)" id="image1" alt="" />
+    </div>
+    <div id="field2" style="position: absolute; left: 142px; top: 100px">
+        <img src="@GetPawnType(2)" id="image2" alt="" />
+    </div>
+    <div id="field3" style="position: absolute; left: 222px; top: 100px">
+        <img src="@GetPawnType(3)" id="image3" alt="" />
+    </div>
+    <div id="field4" style="position: absolute; left: 0; top: 190px">
+        <img src="@GetPawnType(4)" id="image4" alt="" />
+    </div>
+    <div id="field5" style="position: absolute; left: 142px; top: 190px">
+        <img src="@GetPawnType(5)" id="image5" alt=""/>
+    </div>
+    <div id="field6" style="position: absolute; left: 282px; top: 190px">
+        <img src="@GetPawnType(6)" id="image6" alt=""/>
+    </div>
+</div>

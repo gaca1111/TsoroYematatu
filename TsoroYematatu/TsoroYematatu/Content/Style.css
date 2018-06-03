@@ -1,0 +1,46 @@
+﻿body {
+    background-color: lightgray;
+}
+
+a:link {
+    color: black;
+    text-decoration: none;
+}
+
+a:visited {
+    color: black;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.poiterToHand {
+    cursor: grab;
+}
+
+.info {
+    background-color: lightgray;
+    padding: 0.1%;
+    width: 66%;
+    float: right;
+}
+
+.centered {
+    text-align: left;
+}
+
+.button {
+    background-color: gray;
+    padding: 30px;
+}
+
+.StartButtonPvP {
+    visibility: hidden;
+    background-color: gray;
+}
+
+.hidden {
+    visibility: hidden;
+}

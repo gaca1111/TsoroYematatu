@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+    
+<div class="header">
+    @Styles.Render("~/Content/Style.css")
+    <h1>Tsoro Yematatu</h1>
+    <hr />
+    <p class="lead">Gra pochądząca z Zimbabwe, należy do gatunku gier logicznych. Mechanika gry przypomina kółko i krzyżyk lub młynek. Celem jest ułożenie trzech pionków w linii. 
+        Sama rozgrywka składa się z dwóch etapów. Pierwszy  to rozstawianie pionków, drugi zaś to ich przemieszczanie. Pionki w drugiej fazie mogą się nawzajem przeskakiwać, ale jedynie w linii prostej.</p>
+    <hr />
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        <h3>Gracz kontra Gracz</h3>
+        <p> Zmierz się z koleżanką lub kolegą w rozgrywce na tak zwanych gorących krzesłach. Sprawdźcie, które z was lepiej sobie poradzi w tej grze logicznej.</p>
+        <a href="@Url.Action("PvP", "Home")">Kliknij aby przejść do gry</a>
+    </div>
+    <div class="col-lg-6">
+        <h3>Gracz kontra Komputer</h3>
+        <p> Zmierz się z komputerem w celu praktyki i nauki. Czasem będzie ciężko, czasem lżej, ale za to jaka satysfakja z pokonania komputera.</p>
+        <a href="@Url.Action("PvC", "Home")">Kliknij aby przejść do gry</a>
+    </div>
+</div>
