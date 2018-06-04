@@ -28,59 +28,59 @@
     <div style="text-align: center;">
         <h3>Zaczynaja zawsze biale pionki, celem rozgrywki jest ulozenie trzech pionkow w jednej linii.</h3>
         <hr />
-        <a href="@Url.Action("PvC", "Home")">Zacznij od początku</a>
+        <a href="@Url.Action("PvP", "Home")">Zacznij od początku</a>
     </div>
     <hr />
 </div>
-<div style="position: relative" class="centered width33">
-    <img src="~/Images/board.png" id="field" alt="">
-    <div id="field0" style="position: absolute; left: 142px; top: 0">
-        <a href="@Url.Action(actionName: "FieldClick", controllerName: "Home",routeValues: new {field0 = Model.fields[0], field1 = Model.fields[1], field2 = Model.fields[2],
-                     field3 = Model.fields[3],  field4 = Model.fields[4], field5 = Model.fields[5], field6 = Model.fields[6], stone0 = Model.stones[0], stone1 = Model.stones[1],
-                     turn = Model.turn, fieldNumber = 0, gameType = 1 })">
-            <img src="@GetPawnType(0)" id="image0" alt="" />
-        </a>
+    <div style="position: relative" class="centered">
+        <img src="~/Images/board.png" id="field" alt="">
+        <div id="field0" style="position: absolute; left: 142px; top: 0">
+            <a href="@Url.Action(actionName: "FieldClick", controllerName: "Home",routeValues: new {field0 = Model.fields[0], field1 = Model.fields[1], field2 = Model.fields[2],
+                         field3 = Model.fields[3],  field4 = Model.fields[4], field5 = Model.fields[5], field6 = Model.fields[6], stone0 = Model.stones[0], stone1 = Model.stones[1],
+                         turn = Model.turn, fieldNumber = 0, gameType = 1 })">
+                <img src="@GetPawnType(0)" id="image0" alt="" />
+            </a>
+        </div>
+        <div id="field1" style="position: absolute; left: 60px; top: 100px">
+            <a href="@Url.Action(actionName: "FieldClick", controllerName: "Home",routeValues: new {field0 = Model.fields[0], field1 = Model.fields[1], field2 = Model.fields[2],
+                         field3 = Model.fields[3],  field4 = Model.fields[4], field5 = Model.fields[5], field6 = Model.fields[6], stone0 = Model.stones[0], stone1 = Model.stones[1],
+                         turn = Model.turn, fieldNumber = 1, gameType = 1})">
+                <img src="@GetPawnType(1)" id="image1" alt="" />
+            </a>
+        </div>
+        <div id="field2" style="position: absolute; left: 142px; top: 100px">
+            <a href="@Url.Action(actionName: "FieldClick", controllerName: "Home",routeValues: new {field0 = Model.fields[0], field1 = Model.fields[1], field2 = Model.fields[2],
+                         field3 = Model.fields[3],  field4 = Model.fields[4], field5 = Model.fields[5], field6 = Model.fields[6], stone0 = Model.stones[0], stone1 = Model.stones[1],
+                         turn = Model.turn, fieldNumber = 2, gameType = 1})">
+                <img src="@GetPawnType(2)" id="image2" alt="" />
+            </a>
+        </div>
+        <div id="field3" style="position: absolute; left: 222px; top: 100px">
+            <a href="@Url.Action(actionName: "FieldClick", controllerName: "Home",routeValues: new {field0 = Model.fields[0], field1 = Model.fields[1], field2 = Model.fields[2],
+                         field3 = Model.fields[3],  field4 = Model.fields[4], field5 = Model.fields[5], field6 = Model.fields[6], stone0 = Model.stones[0], stone1 = Model.stones[1],
+                         turn = Model.turn, fieldNumber = 3, gameType = 1 })">
+                <img src="@GetPawnType(3)" id="image3" alt="" />
+            </a>
+        </div>
+        <div id="field4" style="position: absolute; left: 0; top: 190px">
+            <a href="@Url.Action(actionName: "FieldClick", controllerName: "Home",routeValues: new {field0 = Model.fields[0], field1 = Model.fields[1], field2 = Model.fields[2],
+                         field3 = Model.fields[3],  field4 = Model.fields[4], field5 = Model.fields[5], field6 = Model.fields[6], stone0 = Model.stones[0], stone1 = Model.stones[1],
+                         turn = Model.turn, fieldNumber = 4, gameType = 1 })">
+                <img src="@GetPawnType(4)" id="image4" alt="" />
+            </a>
+        </div>
+        <div id="field5" style="position: absolute; left: 142px; top: 190px">
+            <a href="@Url.Action(actionName: "FieldClick", controllerName: "Home", routeValues: new {field0 = Model.fields[0], field1 = Model.fields[1], field2 = Model.fields[2],
+                         field3 = Model.fields[3],  field4 = Model.fields[4], field5 = Model.fields[5], field6 = Model.fields[6], stone0 = Model.stones[0], stone1 = Model.stones[1],
+                         turn = Model.turn, fieldNumber = 5, gameType = 1})">
+                <img src="@GetPawnType(5)" id="image5" alt="" />
+            </a>
+        </div>
+        <div id="field6" style="position: absolute; left: 282px; top: 190px">
+            <a href="@Url.Action(actionName: "FieldClick", controllerName: "Home",routeValues: new {field0 = Model.fields[0], field1 = Model.fields[1], field2 = Model.fields[2],
+                         field3 = Model.fields[3],  field4 = Model.fields[4], field5 = Model.fields[5], field6 = Model.fields[6], stone0 = Model.stones[0], stone1 = Model.stones[1],
+                         turn = Model.turn, fieldNumber = 6, gameType = 1 })">
+                <img src="@GetPawnType(6)" id="image6" alt="" />
+            </a>
+        </div>
     </div>
-    <div id="field1" style="position: absolute; left: 60px; top: 100px">
-        <a href="@Url.Action(actionName: "FieldClick", controllerName: "Home",routeValues: new {field0 = Model.fields[0], field1 = Model.fields[1], field2 = Model.fields[2],
-                     field3 = Model.fields[3],  field4 = Model.fields[4], field5 = Model.fields[5], field6 = Model.fields[6], stone0 = Model.stones[0], stone1 = Model.stones[1],
-                     turn = Model.turn, fieldNumber = 1, gameType = 1})">
-            <img src="@GetPawnType(1)" id="image1" alt="" />
-        </a>
-    </div>
-    <div id="field2" style="position: absolute; left: 142px; top: 100px">
-        <a href="@Url.Action(actionName: "FieldClick", controllerName: "Home",routeValues: new {field0 = Model.fields[0], field1 = Model.fields[1], field2 = Model.fields[2],
-                    field3 = Model.fields[3],  field4 = Model.fields[4], field5 = Model.fields[5], field6 = Model.fields[6], stone0 = Model.stones[0], stone1 = Model.stones[1],
-                    turn = Model.turn, fieldNumber = 2, gameType = 1})">
-            <img src="@GetPawnType(2)" id="image2" alt="" />
-        </a>
-    </div>
-    <div id="field3" style="position: absolute; left: 222px; top: 100px">
-        <a href="@Url.Action(actionName: "FieldClick", controllerName: "Home",routeValues: new {field0 = Model.fields[0], field1 = Model.fields[1], field2 = Model.fields[2],
-                     field3 = Model.fields[3],  field4 = Model.fields[4], field5 = Model.fields[5], field6 = Model.fields[6], stone0 = Model.stones[0], stone1 = Model.stones[1],
-                     turn = Model.turn, fieldNumber = 3, gameType = 1 })">
-            <img src="@GetPawnType(3)" id="image3" alt="" />
-        </a>
-    </div>
-    <div id="field4" style="position: absolute; left: 0; top: 190px">
-        <a href="@Url.Action(actionName: "FieldClick", controllerName: "Home",routeValues: new {field0 = Model.fields[0], field1 = Model.fields[1], field2 = Model.fields[2],
-                     field3 = Model.fields[3],  field4 = Model.fields[4], field5 = Model.fields[5], field6 = Model.fields[6], stone0 = Model.stones[0], stone1 = Model.stones[1],
-                     turn = Model.turn, fieldNumber = 4, gameType = 1 })">
-            <img src="@GetPawnType(4)" id="image4" alt="" />
-        </a>
-    </div>
-    <div id="field5" style="position: absolute; left: 142px; top: 190px">
-        <a href="@Url.Action(actionName: "FieldClick", controllerName: "Home", routeValues: new {field0 = Model.fields[0], field1 = Model.fields[1], field2 = Model.fields[2],
-                     field3 = Model.fields[3],  field4 = Model.fields[4], field5 = Model.fields[5], field6 = Model.fields[6], stone0 = Model.stones[0], stone1 = Model.stones[1],
-                     turn = Model.turn, fieldNumber = 5, gameType = 1})">
-            <img src="@GetPawnType(5)" id="image5" alt="" />
-        </a>
-    </div>
-    <div id="field6" style="position: absolute; left: 282px; top: 190px">
-        <a href="@Url.Action(actionName: "FieldClick", controllerName: "Home",routeValues: new {field0 = Model.fields[0], field1 = Model.fields[1], field2 = Model.fields[2],
-                     field3 = Model.fields[3],  field4 = Model.fields[4], field5 = Model.fields[5], field6 = Model.fields[6], stone0 = Model.stones[0], stone1 = Model.stones[1],
-                     turn = Model.turn, fieldNumber = 6, gameType = 1 })">
-            <img src="@GetPawnType(6)" id="image6" alt="" />
-        </a>
-    </div>
-</div>

@@ -35,7 +35,6 @@ namespace TsoroYematatu.BLL
                     {
                         gameBoard = First_Phase(fieldNumber, gameBoard);
                         gameBoard = First_Phase(fieldNumber, gameBoard);
-                        gameBoard.stones[gameBoard.turn - 1]++;
                         gameBoard.stones[gameBoard.turn]++;
                     }
                     else return gameBoard;
@@ -59,6 +58,8 @@ namespace TsoroYematatu.BLL
         {
             if (gameBoard.stones[gameBoard.turn - 1] < 3)
             {
+                gameBoard.stones[gameBoard.turn - 1]++;
+                gameBoard.fields[fieldNumber] = gameBoard.turn;
                 var blank = new Move(fieldNumber + 2);
                 whose_turn = gameBoard.turn == 1 ? Pawn.White : Pawn.Black;
 

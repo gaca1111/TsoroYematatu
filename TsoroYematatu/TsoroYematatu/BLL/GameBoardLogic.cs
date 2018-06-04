@@ -14,7 +14,6 @@ namespace TsoroYematatu.BLL
         public GameBoard FieldClick(int gameType, int fieldNumber, GameBoard gameBoard)
         {
             var pawn = gameBoard.turn == 1 ? Pawn.White : Pawn.Black;
-            gameBoard.fields[fieldNumber] = gameBoard.turn;
             switch (gameType)
             {
                 case 1:

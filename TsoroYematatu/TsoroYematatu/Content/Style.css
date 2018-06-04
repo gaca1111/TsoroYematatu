@@ -25,10 +25,13 @@ a:hover {
     padding: 0.1%;
     width: 66%;
     float: right;
+    z-index: 1;
 }
 
 .centered {
     text-align: left;
+    z-index: 1;
+    width: 350px;
 }
 
 .button {
@@ -39,6 +42,11 @@ a:hover {
 .StartButtonPvP {
     visibility: hidden;
     background-color: gray;
+}
+
+.footer {
+    position: absolute;
+    bottom: 10px;
 }
 
 .hidden {
