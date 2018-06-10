@@ -34,8 +34,11 @@ namespace TsoroYematatu.BLL
                     if (gameBoard.winner == 0)
                     {
                         gameBoard = First_Phase(fieldNumber, gameBoard);
-                        gameBoard = First_Phase(fieldNumber, gameBoard);
-                        gameBoard.stones[gameBoard.turn]++;
+                        if (gameBoard.winner == 0)
+                        {
+                            gameBoard = First_Phase(fieldNumber, gameBoard);
+                            gameBoard.stones[gameBoard.turn]++;
+                        }
                     }
                     else return gameBoard;
                     break;
@@ -80,15 +83,20 @@ namespace TsoroYematatu.BLL
                 if (winner != Pawn.Empty)
                 {
                     gameBoard.winner = winner == Pawn.White ? 1 : 2;
+                    board.SetBoardState(gameBoard);
+                    board.Write_Base_Last_Board(winner);
                 }
             }
             else
             {
+                if (gameBoard.fields[fieldNumber] != gameBoard.turn) return WrongPawnClicked(gameBoard);
+
                 var iteratorForEmpty = 0;
                 for (; iteratorForEmpty < 7; iteratorForEmpty++)
                 {
                     if (gameBoard.fields[iteratorForEmpty] == 0) break;
                 }
+
                 var to = iteratorForEmpty + 2;
                 var from = fieldNumber + 2;
                 var blank = new Move(to, from);
@@ -117,16 +125,30 @@ namespace TsoroYematatu.BLL
                 }
                 else
                     board.empty_field.Add(blank.Move_from);
+
                 winner = board.Check_Lines_Victory(gameBoard);
 
                 if (winner != Pawn.Empty)
+                {
                     gameBoard.winner = winner == Pawn.White ? 1 : 2;
+                    board.SetBoardState(gameBoard);
+                    board.Write_Base_Last_Board(winner);
+                }
 
             }
+
             Change_Turn();
             gameBoard.ChangeTurn();
+
             return gameBoard;
         }
+
+        public GameBoard WrongPawnClicked(GameBoard gameBoard)
+        {
+            gameBoard.wrongPawnClicked = 1;
+            return gameBoard;
+        }
+
 
         private GameBoard First_Phase(int fieldNumber, GameBoard gameBoard)
         {
@@ -134,7 +156,7 @@ namespace TsoroYematatu.BLL
             {
                 return PlayerPhase(fieldNumber, gameBoard);
             }
-
+            board.SetBoardState(gameBoard);
             System.Threading.Thread.Sleep(1000);
             if (gameBoard.stones[1] < 3)
             {
@@ -145,9 +167,13 @@ namespace TsoroYematatu.BLL
                 winner = board.Check_Lines_Victory(gameBoard);
 
                 if (winner != Pawn.Empty)
+                {
                     gameBoard.winner = winner == Pawn.White ? 1 : 2;
+                    board.SetBoardState(gameBoard);
+                    board.Write_Base_Last_Board(winner);
+                }
+                else board.Write_Stale_Last_Board();
 
-                board.Write_Stale_Last_Board();
                 Change_Turn();
                 gameBoard.ChangeTurn();
 
@@ -202,13 +228,17 @@ namespace TsoroYematatu.BLL
             winner = board.Check_Lines_Victory(gameBoard);
 
             if (winner != Pawn.Empty)
+            {
                 gameBoard.winner = winner == Pawn.White ? 1 : 2;
+                board.Write_Base_Last_Board(winner);
+            }
 
             board.Write_Stale_Last_Board();
             Change_Turn();
             gameBoard.ChangeTurn();
 
             board.Write_Base_Last_Board(winner);
+            board.Write_Stale_Last_Board();
             return gameBoard;
         }
 

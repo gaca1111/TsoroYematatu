@@ -26,6 +26,7 @@ namespace TsoroYematatu.BLL
                     gameLogic.Start_Game(Game_Mode.AIvsAI, pawn, gameBoard, fieldNumber);
                     break;
             }
+
             return gameBoard;
         }
     }

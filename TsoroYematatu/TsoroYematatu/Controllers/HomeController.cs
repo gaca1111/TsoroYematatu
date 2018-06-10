@@ -47,6 +47,11 @@ namespace TsoroYematatu.Controllers
             if(gameBoard.winner != 0)
                     if(gameBoard.winner == 1) Response.Write("<script>alert('White wins')</script>");
                     else Response.Write("<script>alert('Black wins')</script>");
+            if (gameBoard.wrongPawnClicked == 1)
+            {
+                Response.Write("<script>alert('Wrong pawn clicked!')</script>");
+                gameBoard.wrongPawnClicked = 0;
+            }
             switch (gameType)
             {
                 case 1:

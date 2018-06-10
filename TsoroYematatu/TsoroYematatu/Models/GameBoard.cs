@@ -14,6 +14,7 @@ namespace TsoroYematatu.Models
         public int turn;
         public int winner;
         public int playerPawn;
+        public int wrongPawnClicked;
 
         public GameBoard()
         {

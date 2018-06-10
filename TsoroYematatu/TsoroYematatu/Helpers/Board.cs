@@ -56,10 +56,41 @@ namespace TsoroYematatu.Helpers
             for (var i = 0; i < 3; i++)
             for (var j = 0; j < 3; j++)
             {
-                if (i == 0) board_state[i, j] = gameBoard.fields[0] == 1 ? Pawn.White : Pawn.Black;
-                if (i == 1) board_state[i, j] = gameBoard.fields[j + 1] == 1 ? Pawn.White : Pawn.Black;
-                if (i == 2) board_state[i, j] = gameBoard.fields[j + 4] == 1 ? Pawn.White : Pawn.Black;
+                switch (i)
+                {
+                    case 0 when gameBoard.fields[0] != 0:
+                        board_state[i, j] = gameBoard.fields[0] == 1 ? Pawn.White : Pawn.Black;
+                        experimental_board_state[i, j] = gameBoard.fields[0] == 1 ? Pawn.White : Pawn.Black;
+                        last_board_state[i, j] = gameBoard.fields[0] == 1 ? Pawn.White : Pawn.Black;
+                        break;
+                    case 0 when gameBoard.fields[0] == 0:
+                        board_state[i, j] = Pawn.Empty;
+                        experimental_board_state[i, j] = Pawn.Empty;
+                        last_board_state[i, j] = Pawn.Empty;
+                        break;
+                    case 1 when gameBoard.fields[j] != 0:
+                        board_state[i, j] = gameBoard.fields[j + 1] == 1 ? Pawn.White : Pawn.Black;
+                        experimental_board_state[i, j] = gameBoard.fields[j + 1] == 1 ? Pawn.White : Pawn.Black;
+                        last_board_state[i, j] = gameBoard.fields[j + 1] == 1 ? Pawn.White : Pawn.Black;
+                        break;
+                    case 1 when gameBoard.fields[j] == 0:
+                        board_state[i, j] = Pawn.Empty;
+                        experimental_board_state[i, j] = Pawn.Empty;
+                        last_board_state[i, j] = Pawn.Empty;
+                        break;
+                    case 2 when gameBoard.fields[j + 2] != 0:
+                        board_state[i, j] = gameBoard.fields[j + 4] == 1 ? Pawn.White : Pawn.Black;
+                        experimental_board_state[i, j] = gameBoard.fields[j + 4] == 1 ? Pawn.White : Pawn.Black;
+                        last_board_state[i, j] = gameBoard.fields[j + 4] == 1 ? Pawn.White : Pawn.Black;
+                        break;
+                    case 2 when gameBoard.fields[j + 2] == 0:
+                        board_state[i, j] = Pawn.Empty;
+                        experimental_board_state[i, j] = Pawn.Empty;
+                        last_board_state[i, j] = Pawn.Empty;
+                        break;
                 }
+            }
+            Find_Board(txt_base_name);
         }
 
         private void Setup_Empty_Field(GameBoard gameBoard)
@@ -392,6 +423,8 @@ namespace TsoroYematatu.Helpers
             var place = 0;
             var weight = 0;
             if (!File.Exists(txt_name)) File.Create(txt_name);
+
+            var path = Path.GetFullPath(txt_name);
             foreach (var line in File.ReadLines(txt_name))
             {
                 if (exists)
@@ -523,7 +556,6 @@ namespace TsoroYematatu.Helpers
                 using (StreamWriter w = File.AppendText(txt_base_name))
                 {
                     Console.WriteLine("new win");
-
                     for (int i = 0; i < board_size; i++)
                         for (int j = 0; j < board_size; j++)
                             w.WriteLine(last_board_state[i, j]);
@@ -624,6 +656,10 @@ namespace TsoroYematatu.Helpers
         static void Line_Changer(string newText, string fileName, int line_to_edit)
         {
             Console.WriteLine("old " + newText);
+
+            var path = Path.GetFullPath(fileName);
+
+
 
             string[] arrLine = File.ReadAllLines(fileName);
             arrLine[line_to_edit] = newText;
