@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Web;
-using System.Web.WebPages;
-
-namespace TsoroYematatu.Models
+﻿namespace TsoroYematatu.Models
 {
     public class GameBoard
     {

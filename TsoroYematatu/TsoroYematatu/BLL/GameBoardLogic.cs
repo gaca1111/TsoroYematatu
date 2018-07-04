@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using TsoroYematatu.Enums;
+﻿using TsoroYematatu.Enums;
 using TsoroYematatu.Models;
 
 namespace TsoroYematatu.BLL

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.ComponentModel.DataAnnotations;
 using TsoroYematatu.Enums;
 using TsoroYematatu.Helpers;
 using TsoroYematatu.Models;
